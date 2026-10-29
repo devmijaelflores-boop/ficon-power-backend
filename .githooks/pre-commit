@@ -1,0 +1,8 @@
+#!/bin/sh
+# Bloquea commits que incluyan .env: contiene credenciales reales.
+# Se activa con: git config core.hooksPath .githooks
+if git diff --cached --name-only --diff-filter=ACM | grep -qx '.env'; then
+    echo "ERROR: intentaste commitear .env, que contiene secretos." >&2
+    echo "Retiralo con: git restore --staged .env" >&2
+    exit 1
+fi

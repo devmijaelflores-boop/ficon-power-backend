@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: ${APP_NAME:ficon-power-backend}
+  http:
+    client:
+      connect-timeout: ${HTTP_CLIENT_CONNECT_TIMEOUT:5s}
+      read-timeout: ${HTTP_CLIENT_READ_TIMEOUT:10s}
+  config:
+    import: optional:file:.env[.properties]
+  flyway:
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    baseline-on-migrate: true
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: ${TZ:America/Lima}
+
+server:
+  address: ${APP_HOST:0.0.0.0}
+  port: ${APP_PORT:8080}
+
+app:
+  time-zone: ${TZ:America/Lima}
+  bootstrap:
+    admin:
+      name: ${ADMIN_NAME:}
+      email: ${ADMIN_EMAIL:}
+      password: ${ADMIN_PASSWORD:}
+  security:
+    # Vacío solo en desarrollo local: la API queda sin autenticación.
+    api-key: ${API_KEY:}
+    sessions:
+      access-duration: ${AUTH_ACCESS_DURATION:24h}
+      refresh-duration: ${AUTH_REFRESH_DURATION:90d}
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+      allowed-methods: ${CORS_ALLOWED_METHODS:GET}
+      allowed-headers: ${CORS_ALLOWED_HEADERS:X-API-Key,Authorization,Content-Type}
+  realtime:
+    poll-delay: ${REALTIME_POLL_DELAY:750}
+    heartbeat-delay: ${REALTIME_HEARTBEAT_DELAY:20000}
+    batch-size: ${REALTIME_BATCH_SIZE:100}
+    retention-days: ${REALTIME_RETENTION_DAYS:3}
+    cleanup-cron: ${REALTIME_CLEANUP_CRON:0 17 3 * * *}
+  tuya:
+    cloud:
+      enabled: ${TUYA_CLOUD_ENABLED:false}
+      api-url: ${TUYA_API_URL:https://openapi-ueaz.tuyaus.com}
+      access-id: ${TUYA_ACCESS_ID:}
+      access-key: ${TUYA_ACCESS_KEY:}
+    pulsar:
+      enabled: ${TUYA_PULSAR_ENABLED:false}
+      service-url: ${TUYA_PULSAR_URL:pulsar+ssl://mqe.tuyaus.com:7285/}
+      access-id: ${TUYA_ACCESS_ID:}
+      access-key: ${TUYA_ACCESS_KEY:}
+      environment: ${TUYA_PULSAR_ENV:prod}
+      subscription-name: ${TUYA_PULSAR_SUBSCRIPTION:}
+      direct-notifications: ${TUYA_PULSAR_DIRECT_NOTIFICATIONS:false}
+      tls-trust-certs-path: ${TUYA_PULSAR_TLS_TRUST_CERTS_PATH:}
+  notifications:
+    whatsapp:
+      api-url: ${WHATSAPP_API_URL:}
+      phone: ${WHATSAPP_PHONE:${WHATSAPP_RECIPIENT_PHONE:}}
+      token: ${WHATSAPP_TOKEN:${WHATSAPP_ACCESS_TOKEN:}}
+      template-name: ${WHATSAPP_TEMPLATE_NAME:}
+      template-language: ${WHATSAPP_TEMPLATE_LANGUAGE:en}
+      outage-template-name: ${WHATSAPP_OUTAGE_TEMPLATE_NAME:}
+      outage-template-params: ${WHATSAPP_OUTAGE_TEMPLATE_PARAMS:}
+      restored-template-name: ${WHATSAPP_RESTORED_TEMPLATE_NAME:}
+      restored-template-params: ${WHATSAPP_RESTORED_TEMPLATE_PARAMS:}
+    fcm:
+      enabled: ${FCM_ENABLED:false}
+      project-id: ${FCM_PROJECT_ID:}
+      credentials-path: ${FCM_CREDENTIALS_PATH:}
+      credentials-json: ${FCM_CREDENTIALS_JSON:}
+      dry-run: ${FCM_DRY_RUN:false}
+    power-alerts:
+      enabled: ${POWER_ALERT_ESCALATION_ENABLED:true}
+      poll-delay: ${POWER_ALERT_ESCALATION_POLL_DELAY:15000}
+      batch-size: ${POWER_ALERT_ESCALATION_BATCH_SIZE:50}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
